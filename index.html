@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>꿈과 사랑이 가득한 성지병설유치원</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Gaegu, Jua - 귀여운 한글 폰트 적용) -->
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans KR', 'sans-serif'],
+                        jua: ['Jua', 'sans-serif'],
+                        gaegu: ['Gaegu', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            yellow: '#FFF3C4',
+                            deepYellow: '#FFD54F',
+                            pink: '#FFE0E6',
+                            deepPink: '#FF8A9A',
+                            blue: '#E3F2FD',
+                            deepBlue: '#64B5F6',
+                            mint: '#E0F2F1',
+                            deepMint: '#4DB6AC',
+                            purple: '#EDE7F6',
+                            deepPurple: '#B39DDB',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 둥실둥실 떠다니는 애니메이션 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+        }
+        @keyframes cloud-float {
+            0%, 100% { transform: translateX(0px); }
+            50% { transform: translateX(15px); }
+        }
+        @keyframes pulse-gentle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        .cloud-animation-1 {
+            animation: cloud-float 8s ease-in-out infinite;
+        }
+        .cloud-animation-2 {
+            animation: cloud-float 12s ease-in-out infinite reverse;
+        }
+        .pulse-animation {
+            animation: pulse-gentle 3s ease-in-out infinite;
+        }
+        
+        /* 스크롤바 디자인 귀엽게 */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFFDE7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FFD54F;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body class="bg-[#FFFDF0] text-gray-800 font-sans antialiased overflow-x-hidden">
+
+    <!-- 귀여운 하늘 배경 요소 (구름 & 무지개) -->
+    <div class="absolute top-0 left-0 w-full overflow-hidden pointer-events-none z-0 h-96">
+        <!-- 구름 1 -->
+        <svg class="absolute top-10 left-10 w-32 h-20 text-white opacity-80 cloud-animation-1" fill="currentColor" viewBox="0 0 100 100">
+            <path d="M20 50 C20 40, 35 35, 40 40 C45 30, 65 30, 70 42 C80 38, 95 48, 90 60 C95 72, 75 80, 65 75 C55 85, 30 80, 25 70 C15 70, 10 60, 20 50 Z" />
+        </svg>
+        <!-- 구름 2 -->
+        <svg class="absolute top-20 right-16 w-44 h-24 text-white opacity-70 cloud-animation-2" fill="currentColor" viewBox="0 0 100 100">
+            <path d="M20 50 C20 40, 35 35, 40 40 C45 30, 65 30, 70 42 C80 38, 95 48, 90 60 C95 72, 75 80, 65 75 C55 85, 30 80, 25 70 C15 70, 10 60, 20 50 Z" />
+        </svg>
+        <!-- 무지개 모양 데코 -->
+        <div class="absolute -top-12 left-1/2 transform -translate-x-1/2 w-[600px] h-[300px] border-b-[30px] border-red-200/20 rounded-full"></div>
+        <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 w-[540px] h-[270px] border-b-[30px] border-yellow-200/20 rounded-full"></div>
+        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-[480px] h-[240px] border-b-[30px] border-blue-200/20 rounded-full"></div>
+    </div>
+
+    <!-- 네비게이션 바 -->
+    <nav class="sticky top-0 z-50 bg-[#FFFDF0]/90 backdrop-blur-md border-b-4 border-yellow-300 px-4 py-3 md:py-4 shadow-sm transition-all duration-300">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="bg-yellow-400 p-2 rounded-full shadow-md group-hover:rotate-12 transition-transform duration-300">
+                    <!-- 유치원 아이콘(새싹) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-green-700">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                    </svg>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-jua text-xl md:text-2xl text-amber-600 tracking-wide">성지병설유치원</span>
+                    <span class="text-xs text-amber-500 font-bold -mt-1 hidden sm:inline">Sungji Kindergarten</span>
+                </div>
+            </a>
+            
+            <div class="flex items-center gap-2 md:gap-4">
+                <a href="#class-section" class="font-jua px-3 py-1.5 rounded-full text-amber-700 hover:bg-yellow-100 transition-colors text-sm md:text-base">우리반 소개</a>
+                <a href="#philosophy-section" class="font-jua px-3 py-1.5 rounded-full text-amber-700 hover:bg-yellow-100 transition-colors text-sm md:text-base">교육이념</a>
+                <a href="#play-zone" class="font-jua px-4 py-1.5 rounded-full bg-orange-400 text-white hover:bg-orange-500 hover:scale-105 transition-all text-sm md:text-base shadow-sm">🎈 풍선놀이</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 히로 섹션 -->
+    <header class="relative z-10 max-w-6xl mx-auto px-4 pt-10 pb-16 text-center">
+        <div class="inline-block bg-orange-100 text-orange-600 font-bold px-4 py-1.5 rounded-full text-sm mb-4 shadow-sm border border-orange-200">
+            🌷 2026학년도 신나는 배움 놀이터
+        </div>
+        <h1 class="font-jua text-4xl md:text-6xl text-amber-600 leading-tight mb-6">
+            꿈과 사랑이 쑥쑥 자라는<br>
+            <span class="text-pink-500 relative inline-block">
+                성지병설유치원
+                <span class="absolute left-0 bottom-1 w-full h-3 bg-yellow-300 -z-10 rounded-full opacity-60"></span>
+            </span>
+            에 오신걸 환영해요!
+        </h1>
+        <p class="text-gray-600 max-w-xl mx-auto text-base md:text-lg font-medium leading-relaxed mb-8">
+            스스로 배우고, 즐겁게 놀이하며, 따뜻한 마음을 지닌 성지의 새싹들이 건강하게 성장하는 행복하고 안전한 공간입니다.
+        </p>
+
+        <!-- 히로 일러스트 (둥실둥실 움직임) -->
+        <div class="relative flex justify-center items-center gap-6 mt-8 mb-4 float-animation">
+            <div class="bg-brand-pink border-4 border-white shadow-xl rounded-2xl p-4 w-28 h-28 md:w-36 md:h-36 flex flex-col items-center justify-center -rotate-6">
+                <span class="text-4xl md:text-5xl mb-1">🧸</span>
+                <span class="font-jua text-sm md:text-base text-pink-600">즐거운 놀이</span>
+            </div>
+            <div class="bg-brand-blue border-4 border-white shadow-xl rounded-2xl p-4 w-32 h-32 md:w-40 md:h-40 flex flex-col items-center justify-center z-10 scale-110">
+                <span class="text-5xl md:text-6xl mb-1">🏰</span>
+                <span class="font-jua text-base md:text-lg text-blue-600">행복한 공간</span>
+            </div>
+            <div class="bg-brand-yellow border-4 border-white shadow-xl rounded-2xl p-4 w-28 h-28 md:w-36 md:h-36 flex flex-col items-center justify-center rotate-6">
+                <span class="text-4xl md:text-5xl mb-1">🎨</span>
+                <span class="font-jua text-sm md:text-base text-yellow-700">무한한 창의력</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 반별 카드 섹션 (핵심 기능) -->
+    <section id="class-section" class="relative z-10 max-w-6xl mx-auto px-4 py-16">
+        <div class="text-center mb-12">
+            <h2 class="font-jua text-3xl md:text-4.5xl text-amber-600 mb-3 flex items-center justify-center gap-2">
+                <span>🎒</span> 성지 새싹들이 모여있는 우리반을 소개해요! <span>🏫</span>
+            </h2>
+            <p class="text-gray-500 text-sm md:text-base">각 반을 터치/클릭하시면 재미있는 하루 일과와 비밀 상징을 알아볼 수 있어요.</p>
+        </div>
+
+        <!-- 5개의 반별 카드 그리드 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center items-stretch">
+            
+            <!-- 1. 예쁜반 (만 3세) -->
+            <div class="group bg-[#FFF9FA] hover:bg-white rounded-3xl p-6 border-4 border-pink-200 hover:border-brand-deepPink shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between transform hover:-translate-y-2 relative overflow-hidden" onclick="openClassModal('예쁜반', '만 3세', '🌸', '체리 핑크', '세상에 첫걸음을 내딛는 가장 소중하고 사랑스러운 아기새싹들의 반입니다. 오감 놀이와 감각 놀이를 통해 매일매일 호기심과 상상력을 쑥쑥 기르고 있어요!', ['오감 발달 촉진 놀이', '따뜻한 일상 적응 활동', '인형 극장과 구연 동화', '안전한 대근육 놀이터'])">
+                <div class="absolute -right-6 -bottom-6 opacity-10 text-9xl">🌸</div>
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-brand-pink text-pink-600 font-bold px-3.5 py-1 rounded-full text-xs border border-pink-300">신입 새싹반</span>
+                        <span class="text-4xl">🌸</span>
+                    </div>
+                    <h3 class="font-jua text-2xl text-pink-500 mb-1">예쁜반 (만 3세)</h3>
+                    <p class="text-gray-500 text-xs mb-3 font-semibold">"첫 사회생활을 웃음꽃 가득하게 시작해요!"</p>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                        모든 것이 신기하고 즐거운 우리 예쁜이들이 따뜻한 품 속에서 안전하고 편안하게 유치원 생활에 적응하는 공간입니다.
+                    </p>
+                </div>
+                <button class="w-full mt-4 bg-brand-pink hover:bg-brand-deepPink text-pink-700 hover:text-white font-jua py-2 rounded-xl border border-pink-300 hover:border-transparent transition-colors text-sm flex items-center justify-center gap-1">
+                    <span>예쁜반 하루 보기</span> <i data-lucide="sparkles" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- 2. 사랑반 (만 4세) -->
+            <div class="group bg-[#FFFEF2] hover:bg-white rounded-3xl p-6 border-4 border-yellow-200 hover:border-brand-deepYellow shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between transform hover:-translate-y-2 relative overflow-hidden cursor-pointer" onclick="window.open('https://sungjiu05-pixel.github.io/sarang/', '_blank')">
+                <div class="absolute -right-6 -bottom-6 opacity-10 text-9xl">🧸</div>
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-brand-yellow text-amber-700 font-bold px-3.5 py-1 rounded-full text-xs border border-yellow-300">형님 준비반</span>
+                        <span class="text-4xl">🧸</span>
+                    </div>
+                    <h3 class="font-jua text-2xl text-yellow-600 mb-1">사랑반 (만 4세)</h3>
+                    <p class="text-gray-500 text-xs mb-3 font-semibold">"배려와 나눔으로 따뜻한 사랑을 실천해요!"</p>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                        친구들과 오순도순 이야기를 나누며, 서로 사랑하고 양보하며 배움을 키워나가는 마음이 따뜻한 어린이들의 사랑방입니다.
+                    </p>
+                </div>
+                <button class="w-full mt-4 bg-brand-yellow hover:bg-brand-deepYellow text-yellow-800 font-jua py-2 rounded-xl border border-yellow-300 hover:border-transparent transition-colors text-sm flex items-center justify-center gap-1">
+                    <span>사랑반 홈페이지 가기</span> <i data-lucide="external-link" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- 3. 다정반 (만 4세) -->
+            <div class="group bg-[#F4FBF9] hover:bg-white rounded-3xl p-6 border-4 border-teal-200 hover:border-brand-deepMint shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between transform hover:-translate-y-2 relative overflow-hidden" onclick="openClassModal('다정반', '만 4세', '🐥', '민트 멜론', '소곤소곤 다정한 목소리로 서로를 위로하고 행복한 에너지를 듬뿍 만드는 다정함의 보금자리입니다. 생태 활동과 식물 관찰을 즐깁니다.', ['실내외 자연 생태 관찰', '다정한 나눔 소리 듣기', '창의 음악 및 악기 합주', '협동 대형 그림 그리기'])">
+                <div class="absolute -right-6 -bottom-6 opacity-10 text-9xl">🐥</div>
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-brand-mint text-teal-700 font-bold px-3.5 py-1 rounded-full text-xs border border-teal-300">쑥쑥 성장반</span>
+                        <span class="text-4xl">🐥</span>
+                    </div>
+                    <h3 class="font-jua text-2xl text-teal-600 mb-1">다정반 (만 4세)</h3>
+                    <p class="text-gray-500 text-xs mb-3 font-semibold">"도란도란 서로 손잡고 다정하게 걸어요!"</p>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                        고운 말을 사용하고 상냥한 몸짓으로 친구의 말을 경청하며, 건강하고 밝은 마음으로 어울리는 다정다감한 학급입니다.
+                    </p>
+                </div>
+                <button class="w-full mt-4 bg-brand-mint hover:bg-brand-deepMint hover:text-white text-teal-800 font-jua py-2 rounded-xl border border-teal-300 hover:border-transparent transition-colors text-sm flex items-center justify-center gap-1">
+                    <span>다정반 하루 보기</span> <i data-lucide="sparkles" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- 4. 슬기반 (만 5세) -->
+            <div class="group bg-[#F5F9FF] hover:bg-white rounded-3xl p-6 border-4 border-blue-200 hover:border-brand-deepBlue shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between transform hover:-translate-y-2 relative overflow-hidden" onclick="openClassModal('슬기반', '만 5세', '🦁', '사파이어 블루', '초등학교 입학을 앞두고 자립심과 협업 능력을 적극 기르는 우리 유치원 최고의 리더반입니다. 과학 실험, 다채로운 코딩 미술, 발표 놀이를 진행합니다.', ['스팀(STEAM) 창의 과학 교실', '초등 연계 리더십 트레이닝', '발표 및 자치 어린이 회의', '다채로운 체육 및 기초 체력 교실'])">
+                <div class="absolute -right-6 -bottom-6 opacity-10 text-9xl">🦁</div>
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-brand-blue text-blue-700 font-bold px-3.5 py-1 rounded-full text-xs border border-blue-300">최고 형님반</span>
+                        <span class="text-4xl">🦁</span>
+                    </div>
+                    <h3 class="font-jua text-2xl text-blue-500 mb-1">슬기반 (만 5세)</h3>
+                    <p class="text-gray-500 text-xs mb-3 font-semibold">"슬기로운 지혜와 용기로 초등학교를 가요!"</p>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                        호기심 넘치는 질문과 탐구 자세를 바탕으로 문제를 스스로 해결하는 능력을 기르는 씩씩하고 슬기로운 최고 형님들입니다.
+                    </p>
+                </div>
+                <button class="w-full mt-4 bg-brand-blue hover:bg-brand-deepBlue hover:text-white text-blue-800 font-jua py-2 rounded-xl border border-blue-300 hover:border-transparent transition-colors text-sm flex items-center justify-center gap-1">
+                    <span>슬기반 하루 보기</span> <i data-lucide="sparkles" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- 5. 고운반 (특수) -->
+            <div class="group bg-[#FBF9FE] hover:bg-white rounded-3xl p-6 border-4 border-purple-200 hover:border-brand-deepPurple shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between transform hover:-translate-y-2 relative overflow-hidden" onclick="openClassModal('고운반', '특수', '🦄', '라벤더 보라', '한 명 한 명의 개성과 속도를 세심히 존중하는 맞춤형 통합 교육을 지향합니다. 감각 놀이 및 정서 조절 요소를 갖춘 최고의 교육 프로그램입니다.', ['개별 맞춤 발달 지원 교육', '통합 학급과 함께하는 협업 미술', '심리 안정 및 감각 통합 치료 놀이', '재미있는 기초 생활 자립 훈련'])">
+                <div class="absolute -right-6 -bottom-6 opacity-10 text-9xl">🦄</div>
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-brand-purple text-purple-700 font-bold px-3.5 py-1 rounded-full text-xs border border-purple-300">특별 맞춤반</span>
+                        <span class="text-4xl">🦄</span>
+                    </div>
+                    <h3 class="font-jua text-2xl text-purple-500 mb-1">고운반 (특수)</h3>
+                    <p class="text-gray-500 text-xs mb-3 font-semibold">"모두 다 고운 빛깔로 저마다의 꽃을 피워요!"</p>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                        아이들 개개인의 특성과 소중한 속도를 존중하며, 차근차근 기초 기본 습관과 즐거운 소통 능력을 꽃피우는 아름다운 학급입니다.
+                    </p>
+                </div>
+                <button class="w-full mt-4 bg-brand-purple hover:bg-brand-deepPurple hover:text-white text-purple-800 font-jua py-2 rounded-xl border border-purple-300 hover:border-transparent transition-colors text-sm flex items-center justify-center gap-1">
+                    <span>고운반 하루 보기</span> <i data-lucide="sparkles" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 인터랙티브 놀이 구역 (풍선 터뜨리기 - Kid's Zone) -->
+    <section id="play-zone" class="bg-[#FFF5F7] py-16 px-4 border-y-8 border-dashed border-pink-200 relative overflow-hidden">
+        <!-- 배경 별들 -->
+        <div class="absolute inset-0 opacity-20 pointer-events-none select-none">
+            <span class="absolute top-10 left-10 text-xl">⭐</span>
+            <span class="absolute top-24 right-1/4 text-2xl">✨</span>
+            <span class="absolute bottom-10 left-1/3 text-2xl">⚡</span>
+            <span class="absolute bottom-20 right-10 text-xl">🎈</span>
+        </div>
+
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <span class="text-5xl">🎈</span>
+            <h2 class="font-jua text-4xl text-pink-500 mt-2 mb-4">어린이 터치터치 풍선 놀이터!</h2>
+            <p class="text-gray-600 mb-2 font-medium">유치원에 오면 매일이 축제 같아요! 아래 풍선들을 클릭해서 팡팡 터뜨려 보세요!</p>
+            <p class="text-xs text-pink-400 font-bold mb-8">💡 (소리를 켜면 아주 귀여운 뿅뿅 소리가 나요!)</p>
+
+            <!-- 스코어 보드 -->
+            <div class="inline-flex items-center gap-6 bg-white px-6 py-3 rounded-full shadow-md mb-8 border-2 border-pink-300">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">🎯</span>
+                    <span class="font-jua text-lg text-gray-700">성공 점수: <span id="score" class="text-pink-500 text-xl font-black">0</span>점</span>
+                </div>
+                <button onclick="resetBalloons()" class="bg-orange-400 hover:bg-orange-500 text-white font-jua px-4 py-1.5 rounded-full text-xs transition-transform duration-200 hover:scale-105 shadow-sm">
+                    🎈 풍선 새로 채우기
+                </button>
+            </div>
+
+            <!-- 풍선들이 둥둥 떠 있는 영역 -->
+            <div id="balloon-container" class="relative bg-white/70 backdrop-blur-sm w-full h-96 rounded-[40px] border-4 border-pink-200 overflow-hidden flex flex-wrap justify-center items-center gap-8 p-6 shadow-inner">
+                <!-- 자바스크립트로 생성 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 교육 목표 및 이념 -->
+    <section id="philosophy-section" class="max-w-6xl mx-auto px-4 py-16">
+        <div class="text-center mb-12">
+            <span class="text-5xl">💖</span>
+            <h2 class="font-jua text-4xl text-amber-600 mt-2">성지의 교육 이념과 가치</h2>
+            <p class="text-gray-500 mt-2">우리는 아이들의 맑은 영혼과 무한한 잠재력을 온전히 사랑합니다.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white rounded-3xl p-8 border-2 border-amber-100 shadow-lg text-center transform transition hover:scale-105 duration-300">
+                <div class="bg-yellow-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl">🏃‍♂️</div>
+                <h3 class="font-jua text-2xl text-yellow-600 mb-3">몸과 마음이 건강하게</h3>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    실외 야외 숲 체험 활동과 영양 가득한 급식을 통하여 체력을 단단히 가꾸고 밝고 유쾌한 마음을 길러냅니다.
+                </p>
+            </div>
+            <div class="bg-white rounded-3xl p-8 border-2 border-pink-100 shadow-lg text-center transform transition hover:scale-105 duration-300">
+                <div class="bg-pink-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl">🌱</div>
+                <h3 class="font-jua text-2xl text-pink-500 mb-3">개성을 마음껏 표현하며</h3>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    자유로운 놀이 중심의 누리과정 속에서 스스로 학습 방향을 설정하고 숨겨진 잠재력과 예술적 기를 자유롭게 펼칩니다.
+                </p>
+            </div>
+            <div class="bg-white rounded-3xl p-8 border-2 border-blue-100 shadow-lg text-center transform transition hover:scale-105 duration-300">
+                <div class="bg-blue-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl">🤝</div>
+                <h3 class="font-jua text-2xl text-blue-500 mb-3">더불어 돕고 사랑하기</h3>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    나와 다름을 따뜻이 품고, 통합교육과 공동 활동을 통하여 이웃과 사회를 배려하는 고운 인성을 가진 사회적 인재로 성장합니다.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 유치원 이모저모 및 급식 안내 (간단 요약) -->
+    <section class="bg-amber-100/50 py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <!-- 오늘의 건강 식단 -->
+                <div class="bg-white rounded-[32px] p-8 border-4 border-yellow-300 shadow-lg pulse-animation">
+                    <div class="flex items-center justify-between mb-6 border-b-2 border-dashed border-yellow-200 pb-4">
+                        <h3 class="font-jua text-2xl text-amber-600 flex items-center gap-2">
+                            <span>🍱</span> 오늘의 영양 튼튼 급식표
+                        </h3>
+                        <span class="text-xs bg-amber-400 text-white font-bold px-3 py-1 rounded-full">국내산 유기농 친환경 식재료</span>
+                    </div>
+                    
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center gap-3 text-gray-700 bg-yellow-50/50 p-2.5 rounded-xl">
+                            <span class="text-xl">🥣</span>
+                            <span class="font-medium text-sm md:text-base">기장밥 / 수제 한우 팽이 갈비탕</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-700 bg-yellow-50/50 p-2.5 rounded-xl">
+                            <span class="text-xl">🍗</span>
+                            <span class="font-medium text-sm md:text-base">안동식 어린이 순살 닭조림</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-700 bg-yellow-50/50 p-2.5 rounded-xl">
+                            <span class="text-xl">🥕</span>
+                            <span class="font-medium text-sm md:text-base">시금치 나물 무침 & 파프리카 계란말이</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-700 bg-yellow-50/50 p-2.5 rounded-xl">
+                            <span class="text-xl">🍓</span>
+                            <span class="font-medium text-sm md:text-base">친환경 무농약 딸기 & 국산 요구르트</span>
+                        </li>
+                    </ul>
+                    <div class="text-center text-xs text-amber-600/80 font-bold bg-amber-50 py-2.5 rounded-xl">
+                        💡 식습관 영양사와 안전 조리사 분들이 매일 정성스레 검수하고 조리하고 있습니다!
+                    </div>
+                </div>
+
+                <!-- 유치원 알림 사항 -->
+                <div class="space-y-6">
+                    <h3 class="font-jua text-3xl text-amber-800">🏫 성지 소식지 안내판</h3>
+                    <p class="text-gray-600 text-sm md:text-base">유치원 소식을 빠르게 안내해 드립니다.</p>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-start gap-4">
+                            <span class="bg-pink-100 text-pink-600 font-bold px-2.5 py-1 rounded-lg text-xs mt-0.5">새소식</span>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm md:text-base">2026 성지 신나는 물놀이 축제 안내</h4>
+                                <p class="text-xs text-gray-500 mt-1">다가오는 금요일, 유치원 야외 정원에서 물총놀이 및 대형 풀장 파티가 열려요!</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-start gap-4">
+                            <span class="bg-blue-100 text-blue-600 font-bold px-2.5 py-1 rounded-lg text-xs mt-0.5">안내</span>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm md:text-base">부모님 참관 수업의 날 예약 및 준비 안내</h4>
+                                <p class="text-xs text-gray-500 mt-1">우리 아이들이 어떻게 어울려 노는지 확인하실 수 있는 6월 참관 수업 일정표를 배송했습니다.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-start gap-4">
+                            <span class="bg-orange-100 text-orange-600 font-bold px-2.5 py-1 rounded-lg text-xs mt-0.5">모집</span>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm md:text-base">성지 방과후 과정 및 돌봄 추가 신청 안내</h4>
+                                <p class="text-xs text-gray-500 mt-1">맞벌이 가정을 위한 꼼꼼 돌봄 보육 서비스 하반기 추가 정원 접수를 개시합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 / 하단 정보 -->
+    <footer class="bg-gray-800 text-gray-300 py-12 px-4 border-t-8 border-yellow-300">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div class="space-y-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">🌱</span>
+                    <span class="font-jua text-xl text-white">성지병설유치원</span>
+                </div>
+                <p class="text-xs text-gray-400 leading-relaxed">
+                    꿈을 품은 아름다운 어린이로 가꾸어 나가는 최고의 국공립 유치원입니다. 언제나 행복한 안심 지대로 함께하겠습니다.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-jua text-lg text-white mb-3">📞 문의 & 소통처</h4>
+                <p class="text-xs text-gray-400 leading-6">
+                    행정실 대표전화: 051-123-4567<br>
+                    교무실 안심전화: 051-123-4568<br>
+                    이메일: contact@sungji.kg.kr<br>
+                    입학 관련 문의 시간: 평일 09:00 - 17:00
+                </p>
+            </div>
+            <div>
+                <h4 class="font-jua text-lg text-white mb-3">📍 오시는 길</h4>
+                <p class="text-xs text-gray-400 leading-6">
+                    부산광역시 성지대로 77 성지병설유치원 (성지초등학교 내 병설 설치)<br>
+                    <span class="text-yellow-400 font-bold">버스편:</span> 성지유치원 정류장 하차 도보 3분<br>
+                    <span class="text-yellow-400 font-bold">지하철편:</span> 성지역 2번 출구에서 셔틀 운행 중
+                </p>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto border-t border-gray-700 pt-6 text-center text-xs text-gray-500 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p>© 2026 성지병설유치원. All Rights Reserved. 디자인 및 구현 성지미디어팀</p>
+            <div class="flex gap-4">
+                <a href="#" class="hover:text-white transition-colors">개인정보처리방침</a>
+                <a href="#" class="hover:text-white transition-colors">유치원 헌장</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- 반 소개용 귀여운 팝업 모달창 -->
+    <div id="class-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-[32px] max-w-md w-full overflow-hidden shadow-2xl border-4 border-yellow-300 transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+            <!-- 모달 상단 컬러바 -->
+            <div id="modal-header-bg" class="bg-brand-pink py-6 px-6 text-center relative border-b-2 border-dashed border-gray-200">
+                <button onclick="closeClassModal()" class="absolute top-4 right-4 bg-white/80 hover:bg-white text-gray-700 w-8 h-8 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:rotate-90">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+                <div class="text-5xl mb-2" id="modal-emoji">🌸</div>
+                <h3 class="font-jua text-2xl text-gray-800" id="modal-title">예쁜반</h3>
+                <span class="bg-white/80 px-3 py-1 rounded-full text-xs font-bold mt-1 inline-block text-gray-700" id="modal-age">만 3세</span>
+            </div>
+            <!-- 모달 알맹이 -->
+            <div class="p-6">
+                <h4 class="font-jua text-lg text-amber-600 mb-2">🎈 우리반 자랑거리</h4>
+                <p class="text-gray-600 text-sm leading-relaxed mb-6" id="modal-desc">
+                    반별 재미있는 설명이 탑재됩니다.
+                </p>
+
+                <h4 class="font-jua text-lg text-pink-500 mb-2">⭐ 어떤 특별 놀이를 하나요?</h4>
+                <ul class="space-y-2 mb-6" id="modal-activities">
+                    <!-- 활동 리스트 채워짐 -->
+                </ul>
+
+                <button onclick="closeClassModal()" class="w-full bg-amber-400 hover:bg-amber-500 text-white font-jua py-3 rounded-2xl transition-all shadow-md active:scale-95">
+                    확인했어요! 친구들 만나러 가기 ✨
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Lucide 아이콘 초기화
+        lucide.createIcons();
+
+        // 꼬꼬마 뿅뿅 효과음 합성기 (Web Audio API 사용, 외부 오디오 파일 불필요)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playPopSound() {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            // 귀여운 뿅 하는 피치 가파른 상승음 생성
+            osc.type = 'sine';
+            const now = audioCtx.currentTime;
+            osc.frequency.setValueAtTime(300, now);
+            osc.frequency.exponentialRampToValueAtTime(1200, now + 0.15);
+            
+            gain.gain.setValueAtTime(0.3, now);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+            
+            osc.start(now);
+            osc.stop(now + 0.15);
+        }
+
+        function playSuccessSound() {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const now = audioCtx.currentTime;
+            
+            // 도미솔 코드로 성공 사운드
+            const notes = [523.25, 659.25, 783.99]; // C5, E5, G5
+            notes.forEach((freq, idx) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+                
+                gain.gain.setValueAtTime(0.2, now + idx * 0.08);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.08 + 0.3);
+                
+                osc.start(now + idx * 0.08);
+                osc.stop(now + idx * 0.08 + 0.3);
+            });
+        }
+
+        // 풍선 놀이터 데이터 및 변수
+        let score = 0;
+        const balloonEmojiList = ['🎈', '🎈', '💖', '⭐', '🌈', '🍭', '🧸', '🐣', '🌸', '🐳'];
+        const colors = [
+            'bg-rose-400', 'bg-amber-400', 'bg-emerald-400', 'bg-sky-400', 'bg-purple-400',
+            'bg-pink-400', 'bg-orange-400', 'bg-yellow-400', 'bg-teal-400', 'bg-indigo-400'
+        ];
+
+        function createBalloons() {
+            const container = document.getElementById('balloon-container');
+            container.innerHTML = '';
+            
+            // 8개의 아기자기한 풍선 생성
+            for (let i = 0; i < 8; i++) {
+                const randomEmoji = balloonEmojiList[Math.floor(Math.random() * balloonEmojiList.length)];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                const balloon = document.createElement('div');
+                // 풍선 모양과 둥둥 흔들림
+                balloon.className = `w-20 h-24 ${randomColor} rounded-full relative flex items-center justify-center cursor-pointer shadow-lg transform transition-all hover:scale-110 active:scale-90 select-none animate-bounce`;
+                balloon.style.animationDuration = `${2 + Math.random() * 2}s`;
+                balloon.style.animationDelay = `${Math.random() * 1.5}s`;
+                
+                // 풍선 밑 꼬리줄 부분
+                const string = document.createElement('div');
+                string.className = 'absolute bottom-[-16px] left-1/2 transform -translate-x-1/2 w-1.5 h-4 bg-orange-300 rounded-b';
+                balloon.appendChild(string);
+
+                // 풍선 내부 이모지
+                const emoji = document.createElement('span');
+                emoji.className = 'text-3xl text-white drop-shadow';
+                emoji.innerText = randomEmoji;
+                balloon.appendChild(emoji);
+
+                // 터뜨리기 이벤트
+                balloon.onclick = (e) => {
+                    e.stopPropagation();
+                    popBalloon(balloon);
+                };
+
+                container.appendChild(balloon);
+            }
+        }
+
+        function popBalloon(balloonElement) {
+            playPopSound();
+            
+            // 팡 터지는 비주얼 효과 연출
+            balloonElement.style.transform = 'scale(1.5) rotate(15deg)';
+            balloonElement.style.opacity = '0';
+            balloonElement.style.pointerEvents = 'none';
+            
+            // 사방 가루 가상 파티클 구현
+            const rect = balloonElement.getBoundingClientRect();
+            const parent = document.getElementById('balloon-container');
+            const parentRect = parent.getBoundingClientRect();
+            
+            for(let i=0; i<6; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'absolute w-3 h-3 rounded-full bg-yellow-400 z-30 pointer-events-none transition-all duration-500';
+                dot.style.left = `${rect.left - parentRect.left + 40}px`;
+                dot.style.top = `${rect.top - parentRect.top + 48}px`;
+                parent.appendChild(dot);
+                
+                setTimeout(() => {
+                    const angle = (i / 6) * Math.PI * 2;
+                    const distance = 80;
+                    dot.style.transform = `translate(${Math.cos(angle)*distance}px, ${Math.sin(angle)*distance}px) scale(0)`;
+                    dot.style.opacity = '0';
+                }, 10);
+                
+                setTimeout(() => dot.remove(), 600);
+            }
+
+            // 점수 증가
+            score += 10;
+            document.getElementById('score').innerText = score;
+
+            // 잠시 후에 파괴하고 다 터지면 세레머니 사운드
+            setTimeout(() => {
+                balloonElement.remove();
+                if (document.getElementById('balloon-container').childElementCount === 0) {
+                    playSuccessSound();
+                    setTimeout(() => {
+                        resetBalloons();
+                    }, 500);
+                }
+            }, 150);
+        }
+
+        function resetBalloons() {
+            createBalloons();
+        }
+
+        // 반 상세 정보 모달 제어 함수
+        function openClassModal(title, age, emoji, colorName, desc, activities) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-age').innerText = age;
+            document.getElementById('modal-emoji').innerText = emoji;
+            document.getElementById('modal-desc').innerText = desc;
+            
+            // 모달 상단 헤더 색상 매칭
+            const header = document.getElementById('modal-header-bg');
+            header.className = `py-6 px-6 text-center relative border-b-2 border-dashed border-gray-200 transition-colors duration-300`;
+            if (title === '예쁜반') header.classList.add('bg-brand-pink');
+            else if (title === '사랑반') header.classList.add('bg-brand-yellow');
+            else if (title === '다정반') header.classList.add('bg-brand-mint');
+            else if (title === '슬기반') header.classList.add('bg-brand-blue');
+            else if (title === '고운반') header.classList.add('bg-brand-purple');
+
+            // 특색 활동 리스트 생성
+            const actContainer = document.getElementById('modal-activities');
+            actContainer.innerHTML = '';
+            activities.forEach(act => {
+                const li = document.createElement('li');
+                li.className = 'flex items-center gap-2 text-sm text-gray-700 font-medium bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100';
+                li.innerHTML = `<span class="text-xs text-amber-500">✔</span> <span>${act}</span>`;
+                actContainer.appendChild(li);
+            });
+
+            // 모달 나타나기 효과
+            const modal = document.getElementById('class-modal');
+            const content = document.getElementById('modal-content');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            
+            playPopSound();
+        }
+
+        function closeClassModal() {
+            const modal = document.getElementById('class-modal');
+            const content = document.getElementById('modal-content');
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        // 페이지 첫 구동 시 풍선 생성
+        window.onload = function() {
+            createBalloons();
+        }
+    </script>
+</body>
+</html>
