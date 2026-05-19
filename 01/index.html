@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글자 친구</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @font-face {
+            font-family: 'OkDandan';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2508-2@1.0/OkDanDan-Bold.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        /* Apply font to the entire body */
+        body {
+            font-family: 'OkDandan', sans-serif !important;
+        }
+        
+        .font-okdandan {
+            font-family: 'OkDandan', sans-serif !important;
+        }
+
+        /* Standard custom styles for playful feels */
+        .pulse-animation {
+            animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-amber-50 text-gray-800 flex justify-center selection:bg-amber-200">
+
+    <div class="w-full max-w-2xl bg-white shadow-xl min-h-screen flex flex-col relative">
+        
+        <!-- Header -->
+        <header class="bg-amber-400 p-4 shadow-sm flex items-center justify-between z-10 select-none">
+            <div class="flex items-center gap-2 text-white">
+                <!-- Pencil Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                <h1 class="text-2xl font-black tracking-wide drop-shadow-md">글자 친구</h1>
+            </div>
+            <!-- Home button (hidden on Home step) -->
+            <button id="btn-home" class="p-2 bg-white/30 rounded-full hover:bg-white/50 transition-colors hidden" aria-label="처음으로">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-amber-900"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </button>
+        </header>
+
+        <!-- Main Content Wrapper -->
+        <main class="flex-1 flex flex-col items-center justify-center p-6 relative">
+            
+            <!-- Error & Guide Notification Bar -->
+            <div id="alert-box" class="absolute top-4 left-4 right-4 bg-red-100 text-red-700 p-3 rounded-lg text-center font-medium shadow-sm z-20 border border-red-200 hidden"></div>
+
+            <!-- STEP 1: Home (Speech Recording Screen) -->
+            <div id="step-home" class="flex flex-col items-center w-full max-w-md transition-all duration-300">
+                <h2 class="text-2xl md:text-3xl font-bold mb-10 text-center text-amber-900">쓰고 싶은 말을 해 볼까요?</h2>
+                
+                <div class="relative">
+                    <!-- Listening background pulse ring -->
+                    <div id="mic-pulse" class="absolute inset-0 rounded-full border-4 border-red-400 pulse-animation opacity-75 hidden"></div>
+                    
+                    <button id="btn-mic" class="relative w-40 h-40 rounded-full bg-blue-500 shadow-lg shadow-blue-500/50 hover:bg-blue-600 active:scale-95 flex items-center justify-center transition-all duration-300">
+                        <!-- Mic Icon -->
+                        <svg id="icon-mic" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-16 h-16 text-white"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+                        <!-- Square/Stop Icon -->
+                        <svg id="icon-stop" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-16 h-16 text-white hidden"><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
+                    </button>
+                </div>
+                
+                <p id="mic-instruction" class="mt-8 text-xl font-medium text-gray-600 text-center h-8">마이크를 누르고 말해요</p>
+
+                <!-- Real-time transcript preview -->
+                <div id="speech-live-box" class="mt-6 p-4 w-full bg-gray-50 rounded-xl border-2 border-amber-200 min-h-[4rem] flex items-center justify-center hidden">
+                    <span id="speech-live-text" class="text-2xl font-bold text-gray-700 text-center break-words">...</span>
+                </div>
+            </div>
+
+            <!-- STEP 2: Confirm Screen (Checking recognized text) -->
+            <div id="step-confirm" class="flex flex-col items-center w-full max-w-md transition-all duration-300 hidden">
+                <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center text-amber-900">이 글자가 맞나요?</h2>
+
+                <div class="w-full bg-yellow-50 border-4 border-amber-300 rounded-3xl p-8 mb-8 shadow-inner flex flex-col items-center relative">
+                    <!-- Text-to-Speech Button -->
+                    <button id="btn-tts-confirm" class="absolute -top-5 bg-white border-2 border-amber-300 rounded-full p-2 text-amber-600 hover:bg-amber-100 shadow-sm transition-colors" aria-label="들어보기">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                    </button>
+                    <!-- Display Recognized Text -->
+                    <p id="confirm-text-display" class="text-4xl md:text-5xl font-black text-gray-800 text-center break-words leading-tight mt-4 font-okdandan">안녕</p>
+                </div>
+
+                <!-- Choice Actions -->
+                <div class="flex flex-col sm:flex-row gap-4 w-full">
+                  <button id="btn-confirm-yes" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-4 px-6 rounded-2xl text-xl font-bold shadow-lg shadow-green-500/30 flex items-center justify-center gap-2 transition-transform hover:scale-105 active:scale-95">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><polyline points="20 6 9 17 4 12"/></svg> ✨ 맞아요
+                  </button>
+                  <button id="btn-confirm-no" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-4 px-6 rounded-2xl text-xl font-bold shadow-md flex items-center justify-center gap-2 transition-transform hover:scale-105 active:scale-95">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><polyline points="3 3 3 8 8 8"/></svg> 다시 말할래요
+                  </button>
+                </div>
+            </div>
+
+            <!-- STEP 3: Tracing Canvas Screen (Writing Practice) -->
+            <div id="step-write" class="flex flex-col items-center w-full h-full transition-all duration-300 hidden">
+                <div class="flex items-center justify-between w-full mb-4 px-2">
+                    <h2 class="text-2xl font-bold text-amber-900 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-amber-500"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg> 보고 써 보세요
+                    </h2>
+                    <!-- Hear audio during tracing -->
+                    <button id="btn-tts-write" class="bg-amber-100 hover:bg-amber-200 text-amber-700 p-2 rounded-full flex items-center justify-center shadow-sm transition-colors" aria-label="들어보기">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                    </button>
+                </div>
+
+                <!-- Canvas Component Wrapper -->
+                <div class="flex-1 w-full relative mb-4">
+                    <div class="w-full h-full flex flex-col relative bg-white rounded-3xl border-4 border-amber-200 overflow-hidden shadow-inner min-h-[350px] md:min-h-[420px]">
+                        
+                        <!-- Canvas Controls Inside Frame -->
+                        <div class="absolute top-2 right-2 z-20">
+                            <button id="btn-clear-canvas" class="bg-white/80 backdrop-blur border-2 border-gray-200 hover:bg-gray-100 text-gray-700 p-2 rounded-xl flex items-center justify-center gap-1 shadow-sm transition-colors text-sm font-bold">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-600"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.4 5.4c1 1 1 2.5 0 3.4L11.7 21Z"/><path d="M19 13 11 5"/><path d="M2 21h20"/></svg> 지우기
+                            </button>
+                        </div>
+
+                        <!-- Canvas drawing container -->
+                        <div id="canvas-container" class="relative w-full h-full flex-1 touch-none">
+                            <!-- Background Tracing Guide Text (OkDandan font) -->
+                            <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none select-none z-0">
+                                <span id="trace-bg-text" class="text-gray-200 font-black text-center break-words leading-tight font-okdandan select-none">안녕</span>
+                            </div>
+                            <!-- Canvas itself -->
+                            <canvas id="write-canvas" class="absolute inset-0 z-10 cursor-crosshair touch-none w-full h-full"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 Footer Control -->
+                <div class="w-full flex gap-3">
+                    <button id="btn-new-letter" class="flex-1 bg-blue-100 hover:bg-blue-200 text-blue-800 py-4 rounded-2xl text-lg font-bold flex items-center justify-center gap-2 transition-colors border-2 border-blue-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><polyline points="3 3 3 8 8 8"/></svg> 새 글자 쓰기
+                    </button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // State variables
+        let currentStep = 'home'; // 'home', 'confirm', 'write'
+        let spokenText = '';
+        let isListening = false;
+        
+        // Element references
+        const alertBox = document.getElementById('alert-box');
+        const btnHome = document.getElementById('btn-home');
+        
+        const stepHome = document.getElementById('step-home');
+        const stepConfirm = document.getElementById('step-confirm');
+        const stepWrite = document.getElementById('step-write');
+        
+        const btnMic = document.getElementById('btn-mic');
+        const micPulse = document.getElementById('mic-pulse');
+        const iconMic = document.getElementById('icon-mic');
+        const iconStop = document.getElementById('icon-stop');
+        const micInstruction = document.getElementById('mic-instruction');
+        const speechLiveBox = document.getElementById('speech-live-box');
+        const speechLiveText = document.getElementById('speech-live-text');
+        
+        const confirmTextDisplay = document.getElementById('confirm-text-display');
+        const btnTtsConfirm = document.getElementById('btn-tts-confirm');
+        const btnConfirmYes = document.getElementById('btn-confirm-yes');
+        const btnConfirmNo = document.getElementById('btn-confirm-no');
+        
+        const traceBgText = document.getElementById('trace-bg-text');
+        const btnTtsWrite = document.getElementById('btn-tts-write');
+        const btnClearCanvas = document.getElementById('btn-clear-canvas');
+        const btnNewLetter = document.getElementById('btn-new-letter');
+        
+        const canvasContainer = document.getElementById('canvas-container');
+        const writeCanvas = document.getElementById('write-canvas');
+        const ctx = writeCanvas.getContext('2d');
+        
+        let isDrawing = false;
+        let speechRecognitionInstance = null;
+
+        // Initialize App
+        window.onload = function() {
+            setupSpeechRecognition();
+            setupCanvas();
+            attachEventListeners();
+            resetToHome();
+        };
+
+        function showError(message) {
+            alertBox.textContent = message;
+            alertBox.classList.remove('hidden');
+            setTimeout(() => {
+                alertBox.classList.add('hidden');
+            }, 6000);
+        }
+
+        function setupSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            
+            if (SpeechRecognition) {
+                speechRecognitionInstance = new SpeechRecognition();
+                speechRecognitionInstance.continuous = true;
+                speechRecognitionInstance.interimResults = true;
+                speechRecognitionInstance.lang = 'ko-KR';
+
+                speechRecognitionInstance.onstart = () => {
+                    isListening = true;
+                    spokenText = '';
+                    speechLiveText.textContent = '...';
+                    speechLiveBox.classList.remove('hidden');
+                    updateMicUI();
+                };
+
+                speechRecognitionInstance.onresult = (event) => {
+                    let currentTranscript = '';
+                    for (let i = 0; i < event.results.length; i++) {
+                        currentTranscript += event.results[i][0].transcript;
+                    }
+                    spokenText = currentTranscript;
+                    speechLiveText.textContent = spokenText || "...";
+                };
+
+                speechRecognitionInstance.onerror = (event) => {
+                    console.error('Speech recognition error', event.error);
+                    stopListeningLogic();
+                    if (event.error === 'not-allowed') {
+                        showError('마이크 권한이 필요해요. 브라우저 설정에서 마이크를 허용해주세요.');
+                    } else {
+                        showError('음성 인식 중 오류가 발생했어요. 다시 시도해주세요.');
+                    }
+                };
+
+                speechRecognitionInstance.onend = () => {
+                    stopListeningLogic();
+                    // Process recognized text if any
+                    if (spokenText.trim().length > 0 && currentStep === 'home') {
+                        setTimeout(() => {
+                            goToStep('confirm');
+                        }, 500);
+                    }
+                };
+            } else {
+                showError('현재 브라우저에서는 음성 인식 기능을 사용할 수 없어요. 크롬(Chrome) 브라우저를 권장합니다.');
+                btnMic.disabled = true;
+                btnMic.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        function speakText(textToSpeak) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                utterance.lang = 'ko-KR';
+                utterance.rate = 0.8; // Friendly, slightly slower pace for children
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function toggleListen() {
+            if (!speechRecognitionInstance) return;
+            if (isListening) {
+                speechRecognitionInstance.stop();
+            } else {
+                try {
+                    speechRecognitionInstance.start();
+                } catch (e) {
+                    console.error("Speech start error:", e);
+                }
+            }
+        }
+
+        function stopListeningLogic() {
+            isListening = false;
+            updateMicUI();
+        }
+
+        function updateMicUI() {
+            if (isListening) {
+                micPulse.classList.remove('hidden');
+                iconMic.classList.add('hidden');
+                iconStop.classList.remove('hidden');
+                btnMic.classList.replace('bg-blue-500', 'bg-red-500');
+                btnMic.classList.replace('shadow-blue-500/50', 'shadow-red-500/50');
+                micInstruction.textContent = '듣고 있어요... 멈추려면 네모를 누르세요.';
+            } else {
+                micPulse.classList.add('hidden');
+                iconMic.classList.remove('hidden');
+                iconStop.classList.add('hidden');
+                btnMic.classList.replace('bg-red-500', 'bg-blue-500');
+                btnMic.classList.replace('shadow-red-500/50', 'shadow-blue-500/50');
+                micInstruction.textContent = '마이크를 누르고 말해요';
+            }
+        }
+
+        function goToStep(step) {
+            currentStep = step;
+            
+            // Hide all steps
+            stepHome.classList.add('hidden');
+            stepConfirm.classList.add('hidden');
+            stepWrite.classList.add('hidden');
+            btnHome.classList.add('hidden');
+            
+            if (step === 'home') {
+                stepHome.classList.remove('hidden');
+                speechLiveBox.classList.add('hidden');
+            } else if (step === 'confirm') {
+                stepConfirm.classList.remove('hidden');
+                btnHome.classList.remove('hidden');
+                confirmTextDisplay.textContent = spokenText;
+            } else if (step === 'write') {
+                stepWrite.classList.remove('hidden');
+                btnHome.classList.remove('hidden');
+                traceBgText.textContent = spokenText;
+                // Adjust size of background tracing font based on length
+                adjustTraceFontSize(spokenText);
+                // Reset canvas display
+                setTimeout(() => {
+                    initCanvasDimensions();
+                }, 100);
+            }
+        }
+
+        function resetToHome() {
+            if (speechRecognitionInstance && isListening) {
+                speechRecognitionInstance.stop();
+            }
+            spokenText = '';
+            goToStep('home');
+        }
+
+        function adjustTraceFontSize(text) {
+            if (text.length > 5) {
+                traceBgText.style.fontSize = '9vw';
+            } else {
+                traceBgText.style.fontSize = '14vw';
+            }
+        }
+
+        function setupCanvas() {
+            // Mouse Events
+            writeCanvas.addEventListener('mousedown', startDrawing);
+            writeCanvas.addEventListener('mousemove', draw);
+            writeCanvas.addEventListener('mouseup', stopDrawing);
+            writeCanvas.addEventListener('mouseout', stopDrawing);
+
+            // Touch Events (for Mobile)
+            writeCanvas.addEventListener('touchstart', startDrawing, { passive: false });
+            writeCanvas.addEventListener('touchmove', draw, { passive: false });
+            writeCanvas.addEventListener('touchend', stopDrawing);
+
+            window.addEventListener('resize', initCanvasDimensions);
+        }
+
+        function initCanvasDimensions() {
+            if (currentStep !== 'write') return;
+            
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvasContainer.getBoundingClientRect();
+            
+            writeCanvas.width = rect.width * dpr;
+            writeCanvas.height = rect.height * dpr;
+            
+            ctx.scale(dpr, dpr);
+            writeCanvas.style.width = `${rect.width}px`;
+            writeCanvas.style.height = `${rect.height}px`;
+
+            // Brush configurations
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.lineWidth = 12; // Thick brush for children
+            ctx.strokeStyle = '#3b82f6'; // Bright children's blue
+        }
+
+        function getCoordinates(e) {
+            const rect = writeCanvas.getBoundingClientRect();
+            let clientX, clientY;
+
+            if (e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+
+            if (clientX === undefined || clientY === undefined) return null;
+
+            return {
+                x: clientX - rect.left,
+                y: clientY - rect.top
+            };
+        }
+
+        function startDrawing(e) {
+            const coords = getCoordinates(e);
+            if (!coords) return;
+            isDrawing = true;
+            ctx.beginPath();
+            ctx.moveTo(coords.x, coords.y);
+            if (e.cancelable) e.preventDefault();
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const coords = getCoordinates(e);
+            if (!coords) return;
+            ctx.lineTo(coords.x, coords.y);
+            ctx.stroke();
+            if (e.cancelable) e.preventDefault();
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, writeCanvas.width, writeCanvas.height);
+        }
+
+        function attachEventListeners() {
+            btnHome.addEventListener('click', resetToHome);
+            btnMic.addEventListener('click', toggleListen);
+            
+            btnTtsConfirm.addEventListener('click', () => speakText(spokenText));
+            btnConfirmYes.addEventListener('click', () => goToStep('write'));
+            btnConfirmNo.addEventListener('click', resetToHome);
+            
+            btnTtsWrite.addEventListener('click', () => speakText(spokenText));
+            btnClearCanvas.addEventListener('click', clearCanvas);
+            btnNewLetter.addEventListener('click', resetToHome);
+        }
+    </script>
+</body>
+</html>
